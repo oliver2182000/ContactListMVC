@@ -45,35 +45,62 @@ namespace TareaWeb1.Controllers
                 return RedirectToAction("Index");
             }
         }
-        [ValidateAntiForgeryToken]
+        
         public ActionResult Update(int id)
         {
-            var data = db.Contacts.Where(x => x.ContactsId == id).SingleOrDefault();
-            return View(data);
+            Contact contact = db.Contacts.Find(id);
+            if(contact == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(contact);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Update(int id, Contact contact)
+        public ActionResult Update(Contact contact)
         {
 
-            var data = db.Contacts.FirstOrDefault(x => x.ContactsId == id);
-            if(data != null)
+            if (ModelState.IsValid)
             {
-                data.ContactsId = contact.ContactsId;
-                data.Nombre = contact.Nombre;
-                data.Apellido = contact.Apellido;
-                data.Email = contact.Email;
-                data.Telefono = contact.Telefono;
-                data.UserId = contact.UserId;
+                db.Entry(contact).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Contacts");
             }
-            return View();
+
+            return View(contact);
+            
+        }
+        public ActionResult Create(int id)
+        {
+            Contact contact = db.Contacts.Find(id);
+            if(contact == null)
+            {
+                
+                return View(contact);
+            }
+            return RedirectToAction("Contacts");
+        }
+        [HttpPost]
+        public ActionResult Create(Contact contact)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Contacts.Add(new Contact
+                {
+                    Nombre = contact.Nombre,
+                    ContactsId = db.Contacts.Count() + 1,
+                    Apellido = contact.Apellido,
+                    Email = contact.Email,
+                    UserId = (int)Session["UserID"],
+                    Telefono = contact.Telefono
+                });
+                db.SaveChanges();
+                return RedirectToAction("Contacts");
+            }
+            return View(contact);
             
         }
 
-        [HttpDelete]
-        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             var data = db.Contacts.FirstOrDefault(x => x.ContactsId == id);

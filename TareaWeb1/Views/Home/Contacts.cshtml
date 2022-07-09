@@ -4,13 +4,13 @@
     ViewBag.Title = "Contacts";
 }
 
-<h2>Contacts</h2>
+<h3 class="bg-primary panel-heading">Contactos</h3>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="@Url.Action("Create","Home", new { id = 0})" class="btn btn-success">Agregar Contacto</a>
 </p>
-<table class="table table-bordered">
-    <tr>
+<table class="table table-bordered table-hover">
+    <tr class="bg-info">
         <th>
             @Html.DisplayNameFor(model => model.Nombre)
         </th>
@@ -23,7 +23,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Telefono)
         </th>
-        <th></th>
+        <th>Acciones</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -41,13 +41,13 @@
             @Html.DisplayFor(modelItem => item.Telefono)
         </td>
         <td>
-            @Html.ActionLink("Editar", "Update", new { id = item.ContactsId }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Borrar", "Delete", new { id = item.ContactsId })
+            
+            <a href="@Url.Action("Update","Home", new { id = item.ContactsId })" class="btn btn-success">Editar</a>
+            <a href="@Url.Action("Delete","Home",new { id = item.ContactsId})" class="btn btn-danger">Borrar</a>
         </td>
     </tr>
 }
 
 </table>
 
-@Html.ActionLink("Regresar","Index")
+<a href="@Url.Action("Index","Home")" class="btn btn-warning">Logout</a>

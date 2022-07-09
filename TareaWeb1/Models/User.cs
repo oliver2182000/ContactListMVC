@@ -11,6 +11,7 @@ namespace TareaWeb1.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class User
     {
@@ -21,7 +22,9 @@ namespace TareaWeb1.Models
         }
     
         public int id { get; set; }
+        [Display(Name = "Usuario:")]
         public string username { get; set; }
+        [Display(Name = "Contraseña:")]
         public string password { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
